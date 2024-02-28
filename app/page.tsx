@@ -37,12 +37,12 @@ export default function Page() {
             221711804 - Yemima Hasian Atnel Hutabarat
           </p>
           <p
-            className={`${anton.className} text-xl text-white md:text-6xl md:leading normal`}
+            className={`${anton.className} text-6xl text-white md:text-6xl md:leading normal`}
           >
             Our Barbershop
           </p>
           <p
-            className={`${anton.className} text-xl text-white md:text-6xl md:leading normal`}
+            className={`${anton.className} text-6xl text-white md:text-6xl md:leading normal`}
           >
             Admin Dashboard
           </p>
