@@ -21,13 +21,11 @@ export default function SideNav() {
         <NavLinks />
         <div className="hidden h-auto w-full grow rounded-md bg-grey-50 md:block"></div>
         <form>
-        <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-amber-100 hover:text-amber-950 md:flex-none md:justify-start md:p-2 md:px-3">
         <Link href= "/" 
           className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-amber-100 hover:text-amber-950 md:flex-none md:justify-start md:p-2 md:px-3"
           ><ArrowUturnLeftIcon className="w-6" />
             <div className="hidden md:block"> Back</div>
           </Link>
-            </button>
           <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-amber-100 hover:text-amber-950 md:flex-none md:justify-start md:p-2 md:px-3">
             <PowerIcon className="w-6" />
             <div className="hidden md:block">Sign Out</div>
