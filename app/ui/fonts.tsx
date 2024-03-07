@@ -11,7 +11,7 @@ export const kanit = Kanit({
   })
   
   export const lusitana = Lusitana({
-    weight: ['400, 700'],
+    weight: ['400', '700'],
     subsets: ['latin'],
   }
   );
