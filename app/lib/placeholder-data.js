@@ -8,8 +8,14 @@ const users = [
     password: '123456',
   },
 ];
-
+ 
 const customers = [
+  {
+    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    name: 'Yemima Hasian Atnel Hutabarat',
+    email: '221711804@students.uajy.ac.id',
+    image_url: '/customers/delba-de-oliveira.png',
+  },
   {
     id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
     name: 'Delba de Oliveira',
@@ -71,16 +77,22 @@ const customers = [
     image_url: '/customers/balazs-orban.png',
   },
 ];
-
+ 
 const invoices = [
   {
     customer_id: customers[0].id,
+    amount: 36000,
+    status: 'pay',
+    date: '2024-02-29',
+  },
+  {
+    customer_id: customers[2].id,
     amount: 15795,
     status: 'pending',
     date: '2022-12-06',
   },
   {
-    customer_id: customers[1].id,
+    customer_id: customers[4].id,
     amount: 20348,
     status: 'pending',
     date: '2022-11-14',
@@ -152,7 +164,7 @@ const invoices = [
     date: '2023-06-18',
   },
   {
-    customer_id: customers[0].id,
+    customer_id: customers[6].id,
     amount: 8945,
     status: 'paid',
     date: '2023-10-04',
@@ -164,10 +176,10 @@ const invoices = [
     date: '2022-06-05',
   },
 ];
-
+ 
 const revenue = [
   { month: 'Jan', revenue: 2000 },
-  { month: 'Feb', revenue: 1800 },
+  { month: 'Feb', revenue: 36000 },
   { month: 'Mar', revenue: 2200 },
   { month: 'Apr', revenue: 2500 },
   { month: 'May', revenue: 2300 },
@@ -180,9 +192,21 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
+const reservations = [
+  {
+    customer_id: customers[0].id,
+    email: '221711804@students.uajy.ac.id',
+    amount:'36000',
+    status:'pay',
+    date:'2024-02-29',
+  },
+];
+
 module.exports = {
   users,
   customers,
   invoices,
   revenue,
+  reservations,
 };
+ 

@@ -4,9 +4,10 @@ const {
   customers,
   revenue,
   users,
+  reservations,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
-
+ 
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -19,9 +20,9 @@ async function seedUsers(client) {
         password TEXT NOT NULL
       );
     `;
-
+ 
     console.log(`Created "users" table`);
-
+ 
     // Insert data into the "users" table
     const insertedUsers = await Promise.all(
       users.map(async (user) => {
@@ -33,9 +34,9 @@ async function seedUsers(client) {
       `;
       }),
     );
-
+ 
     console.log(`Seeded ${insertedUsers.length} users`);
-
+ 
     return {
       createTable,
       users: insertedUsers,
@@ -45,11 +46,11 @@ async function seedUsers(client) {
     throw error;
   }
 }
-
+ 
 async function seedInvoices(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
+ 
     // Create the "invoices" table if it doesn't exist
     const createTable = await client.sql`
     CREATE TABLE IF NOT EXISTS invoices (
@@ -60,9 +61,9 @@ async function seedInvoices(client) {
     date DATE NOT NULL
   );
 `;
-
+ 
     console.log(`Created "invoices" table`);
-
+ 
     // Insert data into the "invoices" table
     const insertedInvoices = await Promise.all(
       invoices.map(
@@ -73,9 +74,9 @@ async function seedInvoices(client) {
       `,
       ),
     );
-
+ 
     console.log(`Seeded ${insertedInvoices.length} invoices`);
-
+ 
     return {
       createTable,
       invoices: insertedInvoices,
@@ -85,11 +86,11 @@ async function seedInvoices(client) {
     throw error;
   }
 }
-
+ 
 async function seedCustomers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
+ 
     // Create the "customers" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS customers (
@@ -99,9 +100,9 @@ async function seedCustomers(client) {
         image_url VARCHAR(255) NOT NULL
       );
     `;
-
+ 
     console.log(`Created "customers" table`);
-
+ 
     // Insert data into the "customers" table
     const insertedCustomers = await Promise.all(
       customers.map(
@@ -112,9 +113,9 @@ async function seedCustomers(client) {
       `,
       ),
     );
-
+ 
     console.log(`Seeded ${insertedCustomers.length} customers`);
-
+ 
     return {
       createTable,
       customers: insertedCustomers,
@@ -124,7 +125,7 @@ async function seedCustomers(client) {
     throw error;
   }
 }
-
+ 
 async function seedRevenue(client) {
   try {
     // Create the "revenue" table if it doesn't exist
@@ -134,9 +135,9 @@ async function seedRevenue(client) {
         revenue INT NOT NULL
       );
     `;
-
+ 
     console.log(`Created "revenue" table`);
-
+ 
     // Insert data into the "revenue" table
     const insertedRevenue = await Promise.all(
       revenue.map(
@@ -147,9 +148,9 @@ async function seedRevenue(client) {
       `,
       ),
     );
-
+ 
     console.log(`Seeded ${insertedRevenue.length} revenue`);
-
+ 
     return {
       createTable,
       revenue: insertedRevenue,
@@ -159,21 +160,76 @@ async function seedRevenue(client) {
     throw error;
   }
 }
-
+ 
+async function seedReservations(client) {
+  try {
+     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+ 
+     // Create the "reservations" table if it doesn't exist
+     const createTable = await client.sql`
+       CREATE TABLE IF NOT EXISTS reservations (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        customer_id UUID NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        amount INT NOT NULL,
+        date DATE NOT NULL,
+        status VARCHAR(255) NOT NULL
+       );
+     `;
+ 
+     console.log(`Created "reservations" table`);
+ 
+     // Insert data into the "reservations" table
+     // Assuming you have a placeholder data for reservations similar to users, customers, etc.
+     const insertedReservations = await Promise.all(
+       reservations.map(
+         (reservations) => client.sql`
+         INSERT INTO reservations (customer_id, email, amount, date, status )
+         VALUES (${reservations.customer_id}, ${reservations.email}, ${reservations.amount}, ${reservations.date}, ${reservations.status} )
+         ON CONFLICT (id) DO NOTHING;
+       `,
+       ),
+     );
+ 
+     console.log(`Seeded ${insertedReservations.length} reservations`);
+ 
+     return {
+       createTable,
+       reservations: insertedReservations,
+     };
+  } catch (error) {
+     console.error('Error seeding reservations:', error);
+     throw error;
+  }
+ }
+ 
+// async function deleteReservationsTable(client) {
+//   try {
+//      // Execute the DROP TABLE command
+//      await client.sql`DROP TABLE IF EXISTS reservations;`;
+//      console.log(`Deleted "reservations" table`);
+//   } catch (error) {
+//      console.error('Error deleting reservations table:', error);
+//      throw error;
+//   }
+//  }
+ 
 async function main() {
   const client = await db.connect();
-
+ 
   await seedUsers(client);
   await seedCustomers(client);
   await seedInvoices(client);
   await seedRevenue(client);
-
+  await seedReservations(client);
+  //await deleteReservationsTable(client);
   await client.end();
 }
-
+ 
 main().catch((err) => {
   console.error(
     'An error occurred while attempting to seed the database:',
     err,
   );
 });
+ 
