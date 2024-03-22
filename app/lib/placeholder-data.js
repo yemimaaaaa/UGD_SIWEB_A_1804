@@ -164,13 +164,7 @@ const invoices = [
     date: '2023-10-04',
   },
   {
-    customer_id: customers[2].id,
-    amount: 1000,
-    status: 'paid',
-    date: '2022-06-05',
-  },
-  {
-    customer_id: customers[10].id,
+    customer_id: customers[0].id,
     amount: 36000,
     status: 'paid',
     date: '2024-02-29',
@@ -194,7 +188,7 @@ const revenue = [
 
 const reservations = [
   {
-    customer_id: customers[10].id,
+    customer_id: customers[0].id,
     email: '221711804@students.uajy.ac.id',
     amount:36000,
     status:'paid',
