@@ -6,7 +6,9 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Button } from '@/app/ui/button';
+// import { buttons} from '@/app/ui/dashboard/reservations/buttons';
+// import { CreateReservations } from '../dashboard/reservations/buttons';
+import { Button } from '../button';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   return (

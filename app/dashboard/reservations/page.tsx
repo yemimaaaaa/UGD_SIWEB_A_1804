@@ -1,10 +1,10 @@
 import { Card } from '@/app/ui/dashboard/cards';
 import LatestReservations from '@/app/ui/dashboard/latest-reservations';
 import { fetchLatestReservations } from '@/app/lib/data';
-import ReservationsTable from '@/app/ui/reservations/table';
+import ReservationsTable from '@/app/ui/dashboard/reservations/table';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/reservations/table';
-import { CreateReservations } from '@/app/ui/reservations/buttons';
+import Table from '@/app/ui/dashboard/reservations/table';
+import { CreateReservations } from '@/app/ui/dashboard/reservations/buttons';
 import { unstable_noStore } from 'next/cache';
 
 export default async function Page() {
