@@ -1,6 +1,5 @@
 import { fetchLatestReservations } from "@/app/lib/data";
 import LatestReservation from "../latest-reservations";
-
 export default async function Page() {
     const latestReservations = await fetchLatestReservations();
     return (
