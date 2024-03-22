@@ -13,11 +13,13 @@ import {
   LatestReservations,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { unstable_noStore } from 'next/cache';
  
  
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
+  unstable_noStore();
  
   try {
     // Artificially delay a response for demo purposes.
@@ -149,7 +151,7 @@ export async function fetchInvoicesPages(query: string) {
   }
 }
  
-export async function fetchInvoiceById(id: string) {
+export async function fetchInvoicesById(id: string) {
   try {
     const data = await sql<InvoiceForm>`
       SELECT
@@ -161,16 +163,16 @@ export async function fetchInvoiceById(id: string) {
       WHERE invoices.id = ${id};
     `;
  
-    const invoice = data.rows.map((invoice) => ({
-      ...invoice,
+    const invoices = data.rows.map((invoices) => ({
+      ...invoices,
       // Convert amount from cents to dollars
-      amount: invoice.amount / 100,
+      amount: invoices.amount / 100,
     }));
  
-    return invoice[0];
+    return invoices[0];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch invoice.');
+    throw new Error('Failed to fetch invoices.');
   }
 }
  
@@ -236,17 +238,18 @@ export async function getUser(email: string) {
 }
  
 export async function fetchLatestReservations() {
+  unstable_noStore()
   try {
     const data = await sql<LatestReservationsRaw>`
-      SELECT reservation.amount, customers.name, customers.image_url, customers.email, reservation.id
+      SELECT reservations.amount, customers.name, customers.image_url, customers.email, reservations.id
       FROM reservations
-      JOIN customers ON reservation.customer_id = customers.id
-      ORDER BY reservation.date DESC
-      LIMIT 5`;
+      JOIN customers ON reservations.customer_id = customers.id
+      ORDER BY reservations.date DESC
+      LIMIT 1`;
  
-    const latestReservations = data.rows.map((reservation) => ({
-      ...reservation,
-      amount: formatCurrency(reservation.amount),
+    const latestReservations = data.rows.map((reservations) => ({
+      ...reservations,
+      amount: formatCurrency(reservations.amount),
     }));
     return latestReservations;
   } catch (error) {
@@ -260,7 +263,7 @@ export async function fetchFilteredReservations(
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
- 
+  unstable_noStore()
   try {
     const reservations = await sql<ReservationsTable>`
       SELECT

@@ -13,6 +13,7 @@ import {
 export default async function Page() {
   const revenue = await fetchRevenue();
   const latestInvoices = await fetchLatestInvoices();
+  const latestReservations = await fetchLatestReservations();
   const {
     numberOfInvoices,
     numberOfCustomers,
@@ -37,10 +38,8 @@ export default async function Page() {
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <RevenueChart revenue={revenue}  />
         <LatestInvoices latestInvoices={latestInvoices} />
+        <LatestReservations latestReservations={latestReservations} />
         </div>
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-          <LatestReservations latestReservations={latestInvoices} />
-      </div>
     </main>
   );
 }

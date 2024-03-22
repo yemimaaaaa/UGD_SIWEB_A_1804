@@ -11,10 +11,10 @@ const users = [
  
 const customers = [
   {
-    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
+    id: '3958dc9e-8042-4377-85e9-fec4b6a6442a',
     name: 'Yemima Hasian Atnel Hutabarat',
     email: '221711804@students.uajy.ac.id',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_url: '/customers/foto appa.png',
   },
   {
     id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
@@ -79,12 +79,6 @@ const customers = [
 ];
  
 const invoices = [
-  {
-    customer_id: customers[0].id,
-    amount: 36000,
-    status: 'pay',
-    date: '2024-02-29',
-  },
   {
     customer_id: customers[2].id,
     amount: 15795,
@@ -175,11 +169,17 @@ const invoices = [
     status: 'paid',
     date: '2022-06-05',
   },
+  {
+    customer_id: customers[10].id,
+    amount: 36000,
+    status: 'paid',
+    date: '2024-02-29',
+  },
 ];
  
 const revenue = [
   { month: 'Jan', revenue: 2000 },
-  { month: 'Feb', revenue: 36000 },
+  { month: 'Feb', revenue: 1800 },
   { month: 'Mar', revenue: 2200 },
   { month: 'Apr', revenue: 2500 },
   { month: 'May', revenue: 2300 },
@@ -194,10 +194,10 @@ const revenue = [
 
 const reservations = [
   {
-    customer_id: customers[0].id,
+    customer_id: customers[10].id,
     email: '221711804@students.uajy.ac.id',
-    amount:'36000',
-    status:'pay',
+    amount:36000,
+    status:'paid',
     date:'2024-02-29',
   },
 ];
