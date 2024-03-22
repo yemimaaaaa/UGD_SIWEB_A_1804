@@ -6,6 +6,7 @@ import Search from '@/app/ui/search';
 import Table from '@/app/ui/dashboard/reservations/table';
 import { CreateReservations } from '@/app/ui/dashboard/reservations/buttons';
 import { unstable_noStore } from 'next/cache';
+import { CreateInvoice } from '@/app/ui/invoices/buttons';
 
 export default async function Page() {
   unstable_noStore()
@@ -18,7 +19,7 @@ export default async function Page() {
       <p> Yemima Hasian Atnel Hutabarat</p>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search reservations..." />
-        <CreateReservations />
+        <CreateInvoice />
       </div>
       {/*  <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
