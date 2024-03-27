@@ -1,4 +1,4 @@
-import DashboardSkeleton, { ReservationsTableSkeleton } from '@/app/ui/skeletons';
+import DashboardSkeleton, {ReservationsTableSkeleton } from '@/app/ui/skeletons';
 
 export default function Loading() {
     return <ReservationsTableSkeleton />;
