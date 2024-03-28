@@ -5,6 +5,7 @@ import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredReservations } from '@/app/lib/data';
 import { DeleteReservations, UpdateReservations } from './buttons';
 import { ReservationsTable } from '@/app/lib/definitions';
+import { promise } from 'zod';
 
 export default async function ReservationsTable({
   query,
@@ -14,7 +15,7 @@ export default async function ReservationsTable({
   currentPage: number;
 }) {
   const reservations = await fetchFilteredReservations(query, currentPage);
-
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
