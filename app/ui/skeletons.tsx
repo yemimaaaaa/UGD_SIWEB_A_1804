@@ -74,6 +74,7 @@ export function ReservationsSkeleton() {
   );
 }
 
+
 export function LatestInvoicesSkeleton() {
   return (
     <div
@@ -136,6 +137,8 @@ export default function DashboardSkeleton() {
         <RevenueChartSkeleton />
         <LatestInvoicesSkeleton />
         <LatestReservationsSkeleton />
+        <CreateReservationsSkeleton/>
+        <SearchReservationsSkeleton/>
       </div>
     </>
   );
@@ -341,3 +344,43 @@ export function ReservationsTableSkeleton() {
     </>
   );
 }
+
+
+export function SearchReservationsSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-5 w-5 rounded-md bg-gray-200" />
+       <div className="ml-2 h-6 w-16 rounded-md bg-gray-200 text-sm font-medium" />
+     </div>
+  );
+ }
+
+ export function CreateReservationsSkeleton() {
+  return (
+     <div className={`${shimmer} relative flex items-center justify-center rounded-md bg-gray-100 p-2`}>
+       <div className="h-6 w-20 rounded-md bg-gray-200" />
+     </div>
+  );
+ }
+
+ export function JudulReservationsSkeleton() {
+  return (
+    <div 
+      className={`${shimmer} relative flex with full flex-col overflow-hidden md:col-span-4`} >
+        <div className="mb-6 h-8 w-36 rounded-md bg-gray-200" />
+        </div>
+  );
+ }
+ 
+ export function TampilReservationsSkeleton() {
+  return (
+    <div>
+      <JudulReservationsSkeleton />
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <SearchReservationsSkeleton />
+        <CreateReservationsSkeleton />
+        </div>
+        <ReservationsTableSkeleton />
+      </div>
+  );
+ }
