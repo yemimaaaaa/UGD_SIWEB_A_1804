@@ -1,18 +1,28 @@
 // import { Card } from '@/app/ui/dashboard/cards';
 // import LatestReservations from '@/app/ui/dashboard/latest-reservations';
 // import { fetchLatestReservations } from '@/app/lib/data';
-// import ReservationsTable from '@/app/ui/dashboard/reservations/table';
+import Pagination from '@/app/ui/dashboard/reservations/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/dashboard/reservations/table';
 import { CreateReservations } from '@/app/ui/dashboard/reservations/buttons';
 import { unstable_noStore } from 'next/cache';
-import { CreateInvoice } from '@/app/ui/invoices/buttons';
-import { fetchLatestInvoices, fetchCardData, fetchLatestReservations } from '@/app/lib/data';
+import {  fetchCardData, fetchLatestReservations, fetchReservationsPages } from '@/app/lib/data';
 import { Suspense } from 'react';
-import { RevenueChartSkeleton, LatestInvoicesSkeleton, LatestReservationsSkeleton, ReservationsTableSkeleton , SearchReservationsSkeleton, CreateReservationsSkeleton} from '@/app/ui/skeletons';
+import { RevenueChartSkeleton, LatestReservationsSkeleton, ReservationsTableSkeleton , SearchReservationsSkeleton, CreateReservationsSkeleton} from '@/app/ui/skeletons';
 
-export default async function Page() {
-  unstable_noStore()
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+  //unstable_noStore()
+
   const latestReservations = await fetchLatestReservations();
   return (
     <div className="flex min-h-screen flex-col">
@@ -23,19 +33,23 @@ export default async function Page() {
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Suspense fallback= {<SearchReservationsSkeleton/>}>
         <Search placeholder="Search reservations..." />
-        {/* <CreateReservations /> */}
         </Suspense>
+
         <Suspense fallback={<CreateReservationsSkeleton />}>
           <CreateReservations/>
         </Suspense>
       </div>
 
-       <Suspense fallback={<ReservationsTableSkeleton />}>
-       <Table query = " " currentPage={1}/>
+      <Suspense key={query + currentPage} fallback={<ReservationsTableSkeleton />}>
+        <Table query={query} currentPage={currentPage} />
       </Suspense>
+       {/* <Suspense fallback={<ReservationsTableSkeleton />}>
+       <Table query = " " currentPage={1}/>
+      </Suspense> */}
 
-        {/* <div className="mt-5 flex w-full justify-center">
-        </div> */}
+         {/* <div className="mt-5 flex w-full justify-center">
+        </div> 
+        <Pagination totalPages={totalPages} /> */}
       {/* <Table query = " " currentPage={1}/> */}
     </div>
   )
