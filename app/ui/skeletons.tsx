@@ -350,7 +350,6 @@ export function SearchReservationsSkeleton() {
   return (
      <div className={`${shimmer} relative flex items-center rounded-md bg-gray-100 p-2`}>
        <div className="h-5 w-5 rounded-md bg-gray-200" />
-       <div className="ml-2 h-6 w-16 rounded-md bg-gray-200 text-sm font-medium" />
      </div>
   );
  }
