@@ -154,28 +154,29 @@ export async function fetchInvoicesPages(query: string) {
   }
 }
  
-export async function fetchInvoicesById(id: string) {
+export async function fetchReservationsById(id: string) {
   try {noStore();
-    const data = await sql<InvoiceForm>`
+    const data = await sql<ReservationsForm>`
       SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
+        reservations.id,
+        reservations.customer_id,
+        reservations.amount,
+        reservations.status
+      FROM reservations
+      WHERE reservations.id = ${id};
     `;
  
-    const invoices = data.rows.map((invoices) => ({
-      ...invoices,
+    const reservations = data.rows.map((reservations) => ({
+      ...reservations,
       // Convert amount from cents to dollars
-      amount: invoices.amount / 100,
+      amount: reservations.amount / 100,
     }));
  
-    return invoices[0];
+    console.log(reservations);
+    return reservations[0];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch invoices.');
+    throw new Error('Failed to fetch reservations.');
   }
 }
  
