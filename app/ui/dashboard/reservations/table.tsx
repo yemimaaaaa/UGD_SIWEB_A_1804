@@ -111,10 +111,10 @@ export default async function ReservationsTable({
                     <ReservationsStatus status={reservations.status} />
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
+                    <td className="flex justify-end gap-3">
                       <UpdateReservations id={reservations.id} />
                      {</* <DeleteReservations id={reservations.id} /> */></>}
-                    </div>
+                    </td>
                   </td>
                 </tr>
               ))}

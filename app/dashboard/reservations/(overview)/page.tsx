@@ -21,7 +21,8 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  //unstable_noStore()
+  //const 
+    //unstable_noStore()
 
   const latestReservations = await fetchLatestReservations();
   return (
@@ -44,13 +45,12 @@ export default async function Page({
         <Table query={query} currentPage={currentPage} />
       </Suspense>
        {/* <Suspense fallback={<ReservationsTableSkeleton />}>
-       <Table query = " " currentPage={1}/>
-      </Suspense> */}
-
-         {/* <div className="mt-5 flex w-full justify-center">
+       {/* <Table query = " " currentPage={1}/> */}
+      {/* </Suspense> */} 
+{/* 
+         <div className="mt-5 flex w-full justify-center">
         </div> 
         <Pagination totalPages={totalPages} /> */}
-      {/* <Table query = " " currentPage={1}/> */}
     </div>
   )
 }
