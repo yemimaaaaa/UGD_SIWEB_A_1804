@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomerField, InvoiceForm, ReservationsForm } from '@/app/lib/definitions';
+import { CustomerField, ReservationsForm } from '@/app/lib/definitions';
 import {
   CheckIcon,
   ClockIcon,
@@ -48,7 +48,7 @@ export default function EditReservationsForm({
           </div>
         </div>
 
-        {/* Invoice Amount */}
+        {/* Reservations Amount */}
         <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
             Choose an amount
@@ -69,7 +69,7 @@ export default function EditReservationsForm({
           </div>
         </div>
 
-        {/* Invoice Status */}
+        {/* Reservations Status */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
             Set the reservations status

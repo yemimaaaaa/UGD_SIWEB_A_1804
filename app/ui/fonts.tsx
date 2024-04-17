@@ -1,4 +1,4 @@
-import { Kanit, Anton, Lusitana} from 'next/font/google';
+import { Kanit, Anton, Lusitana, Inter} from 'next/font/google';
  
 export const kanit = Kanit({
     weight: ['400'],
@@ -11,6 +11,12 @@ export const kanit = Kanit({
   })
   
   export const lusitana = Lusitana({
+    weight: ['400', '700'],
+    subsets: ['latin'],
+  }
+  );
+
+  export const inter = Inter({
     weight: ['400', '700'],
     subsets: ['latin'],
   }

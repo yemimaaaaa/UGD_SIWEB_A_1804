@@ -1,12 +1,10 @@
 import Image from 'next/image';
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
-import ReservationsStatus from '@/app/ui/dashboard/reservations/status';
+import { UpdateReservations , DeleteReservations } from '@/app/ui/dashboard/reservations/buttons';
+import ReservationStatus from '@/app/ui/dashboard/reservations/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredReservations } from '@/app/lib/data';
-import { DeleteReservations, UpdateReservations } from './buttons';
-import { ReservationsTable } from '@/app/lib/definitions';
-import { promise } from 'zod';
-
+import { kanit, anton, inter } from '@/app/ui/fonts';
+ 
 export default async function ReservationsTable({
   query,
   currentPage,
@@ -15,50 +13,50 @@ export default async function ReservationsTable({
   currentPage: number;
 }) {
   const reservations = await fetchFilteredReservations(query, currentPage);
- await new Promise((resolve) => setTimeout(resolve, 2000));
+ 
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            {reservations?.map((reservations) => (
+            {reservations?.map((reservation) => (
               <div
-                key={reservations.id}
+                key={reservation.id}
                 className="mb-2 w-full rounded-md bg-white p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
                       <Image
-                        src={reservations.image_url}
+                        src={reservation.image_url}
                         className="mr-2 rounded-full"
                         width={28}
                         height={28}
-                        alt={`${reservations.name}'s profile picture`}
+                        alt={`${reservation.name}'s profile picture`}
                       />
-                      <p>{reservations.name}</p>
+                      <p>{reservation.name}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{reservations.email}</p>
+                    <p className="text-sm text-gray-500">{reservation.email}</p>
                   </div>
-                  <ReservationsStatus status={reservations.status} />
+                  <ReservationStatus status={reservation.status} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
-                      {formatCurrency(reservations.amount)}
+                      {formatCurrency(reservation.amount)}
                     </p>
-                    <p>{formatDateToLocal(reservations.date)}</p>
+                    <p>{formatDateToLocal(reservation.date)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateReservations id={reservations.id} />
-                    <DeleteReservations id={reservations.id} />
+                    <UpdateReservations id={reservation.id} />
+                    <DeleteReservations id={reservation.id} />
                   </div>
                 </div>
               </div>
             ))}
           </div>
           <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
+            <thead className={`${inter.className} rounded-lg text-left text-sm font-normal`}>
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                   Customer
@@ -81,40 +79,40 @@ export default async function ReservationsTable({
               </tr>
             </thead>
             <tbody className="bg-white">
-              {reservations?.map((reservations) => (
+              {reservations?.map((reservation) => (
                 <tr
-                  key={reservations.id}
+                  key={reservation.id}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex items-center gap-3">
+                    <div className={`${inter.className} flex items-center gap-3`}>
                       <Image
-                        src={reservations.image_url}
+                        src={reservation.image_url}
                         className="rounded-full"
                         width={28}
                         height={28}
-                        alt={`${reservations.name}'s profile picture`}
+                        alt={`${reservation.name}'s profile picture`}
                       />
-                      <p>{reservations.name}</p>
+                      <p>{reservation.name}</p>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {reservations.email}
+                  <td className={`${inter.className} whitespace-nowrap px-3 py-3`}>
+                    {reservation.email}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                  {formatCurrency(reservations.amount)}
+                  <td className={`${inter.className} whitespace-nowrap px-3 py-3`}>
+                    {formatCurrency(reservation.amount)}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(reservations.date)}
+                  <td className={`${inter.className} whitespace-nowrap px-3 py-3`}>
+                    {formatDateToLocal(reservation.date)}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <ReservationsStatus status={reservations.status} />
+                  <td className={`${inter.className} whitespace-nowrap px-3 py-3`}>
+                    <ReservationStatus status={reservation.status} />
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <td className="flex justify-end gap-3">
-                      <UpdateReservations id={reservations.id} />
-                     <DeleteReservations id={reservations.id} />
-                    </td>
+                    <div className="flex justify-end gap-3">
+                      <UpdateReservations id={reservation.id} />
+                      <DeleteReservations id={reservation.id} />
+                    </div>
                   </td>
                 </tr>
               ))}
