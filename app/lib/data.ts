@@ -180,52 +180,52 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
-export async function fetchReservationsWithId(id: string) {
-  noStore();
-  try {
-    const data = await sql<ReservationsForm>`
-      SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
-    `;
+// export async function fetchReservationsWithId(id: string) {
+//   noStore();
+//   try {
+//     const data = await sql<ReservationsForm>`
+//       SELECT
+//         reservations.id,
+//         reservations.customer_id,
+//         reservations.amount,
+//         reservations.status
+//       FROM reservations
+//       WHERE reservations.id = ${id};
+//     `;
 
-    const reservations = data.rows.map((reservations) => ({
-      ...reservations,
-      // Convert amount from cents to dollars
-      amount: reservations.amount / 100,
-    }));
+//     const reservation = data.rows.map((reservation) => ({
+//       ...reservation,
+//       // Convert amount from cents to dollars
+//       amount: reservation.amount / 100,
+//     }));
 
-    return reservations[0];
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch reservations.');
-  }
-}
+//     return reservation[0];
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch reservations.');
+//   }
+// }
 
 export async function fetchReservationsById(id: string) {
   noStore();
   try {
     const data = await sql<ReservationsForm>`
       SELECT
-        invoices.id,
-        invoices.customer_id,
-        invoices.amount,
-        invoices.status
-      FROM invoices
-      WHERE invoices.id = ${id};
+        reservations.id,
+        reservations.customer_id,
+        reservations.amount,
+        reservations.status
+      FROM reservations
+      WHERE reservations.id = ${id};
     `;
 
-    const reservations = data.rows.map((reservations) => ({
-      ...reservations,
+    const reservation = data.rows.map((reservation) => ({
+      ...reservation,
       // Convert amount from cents to dollars
-      amount: reservations.amount / 100,
+      amount: reservation.amount / 100,
     }));
 
-    return reservations[0];
+    return reservation[0];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch reservations.');

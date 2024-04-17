@@ -1,4 +1,4 @@
-import Form from '@/app/ui/reservations/create-form';
+import Form from '@/app/ui/dashboard/reservations/create-form';
 import Breadcrumbs from '@/app/ui/dashboard/reservations/breadcrumbs';
 import { fetchCustomers } from '@/app/lib/data';
  

@@ -4,7 +4,7 @@ import { fetchReservationsById, fetchCustomers } from '@/app/lib/data';
  
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
-    const [reservations, customers] = await Promise.all([
+    const [reservation, customers] = await Promise.all([
         fetchReservationsById(id),
         fetchCustomers(),
       ]);
@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <EditReservationsForm reservations={reservations} customers={customers} />
+      <EditReservationsForm reservation={reservation} customers={customers} />
     </main>
   );
 }

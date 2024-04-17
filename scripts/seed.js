@@ -167,14 +167,14 @@ async function seedReservations(client) {
  
      // Create the "reservations" table if it doesn't exist
      const createTable = await client.sql`
-       CREATE TABLE IF NOT EXISTS reservations (
-        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        customer_id UUID NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        amount INT NOT NULL,
-        date DATE NOT NULL,
-        status VARCHAR(255) NOT NULL
-       );
+     CREATE TABLE IF NOT EXISTS reservations (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      customer_id UUID NOT NULL,
+      amount INT NOT NULL,
+      date DATE NOT NULL,
+      status VARCHAR(255) NOT NULL
+     );
+     
      `;
  
      console.log(`Created "reservations" table`);
@@ -184,8 +184,8 @@ async function seedReservations(client) {
      const insertedReservations = await Promise.all(
        reservations.map(
          (reservations) => client.sql`
-         INSERT INTO reservations (customer_id, email, amount, date, status )
-         VALUES (${reservations.customer_id}, ${reservations.email}, ${reservations.amount}, ${reservations.date}, ${reservations.status} )
+         INSERT INTO reservations (customer_id, amount, date, status )
+         VALUES (${reservations.customer_id}, ${reservations.amount}, ${reservations.date}, ${reservations.status} )
          ON CONFLICT (id) DO NOTHING;
        `,
        ),
@@ -222,7 +222,7 @@ async function main() {
   await seedInvoices(client);
   await seedRevenue(client);
   await seedReservations(client);
-  //await deleteReservationsTable(client);
+  // await deleteReservationsTable(client);
   await client.end();
 }
  
