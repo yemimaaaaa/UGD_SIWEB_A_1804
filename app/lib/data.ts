@@ -14,6 +14,7 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
+import { reservations } from './placeholder-data';
  
  
 export async function fetchRevenue() {
@@ -224,7 +225,8 @@ export async function fetchReservationsById(id: string) {
       // Convert amount from cents to dollars
       amount: reservation.amount / 100,
     }));
-
+    
+    console.log(reservations);
     return reservation[0];
   } catch (error) {
     console.error('Database Error:', error);

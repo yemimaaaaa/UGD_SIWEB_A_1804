@@ -1,6 +1,7 @@
 import EditReservationsForm from '@/app/ui/dashboard/reservations/edit-form';
 import Breadcrumbs from '@/app/ui/dashboard/reservations/breadcrumbs';
 import { fetchReservationsById, fetchCustomers } from '@/app/lib/data';
+import { notFound } from 'next/navigation';
  
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -8,6 +9,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         fetchReservationsById(id),
         fetchCustomers(),
       ]);
+
+      if (!reservation) {
+        notFound();
+      }
+      
   return (
     <main>
       <Breadcrumbs
