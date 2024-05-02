@@ -121,11 +121,11 @@ const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
   export async function deleteInvoice(id: string) {
     throw new Error('Failed to Delete Invoice');
-    try {
-      await sql`DELETE FROM invoices WHERE id = ${id}`;
-      revalidatePath('/dashboard/invoices');
-      return { message: 'Deleted Invoice.' };
-    } catch (error) {
-      return { message: 'Database Error: Failed to Delete Invoice.' };
-    }
+    // try {
+    //   await sql`DELETE FROM invoices WHERE id = ${id}`;
+    //   revalidatePath('/dashboard/invoices');
+    //   return { message: 'Deleted Invoice.' };
+    // } catch (error) {
+    //   return { message: 'Database Error: Failed to Delete Invoice.' };
+    // }
   }
