@@ -11,6 +11,7 @@ import {
   LatestReservationsRaw,
   ReservationsForm,
   LatestReservations,
+  CustomersForm,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -394,3 +395,30 @@ export async function fetchReservationsPages(query: string) {
 //     throw new Error('Failed to fetch total number of reservations.');
 //   }
 // }
+
+export async function fetchCustomersById(id: string) {
+  noStore();
+  try {
+    const data = await sql<CustomersForm>`
+      SELECT
+        customers.id,
+        customers.nama,
+        customers.email,
+        customers.image_url,
+      FROM customers
+      WHERE customers.id = ${id};
+    `;
+
+    const customers = data.rows.map((customers) => ({
+      ...customers,
+      // Convert amount from cents to dollars
+      image_url: customers.image_url || 'default-image-url-jpg'
+    }));
+    
+    console.log(customers);
+    return customers[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customers.');
+  }
+}
