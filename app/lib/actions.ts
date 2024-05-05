@@ -165,7 +165,7 @@ export async function createCustomers(formData: FormData) {
 export async function updateCustomers(id: string, formData: FormData) {
   const image = formData.get('image');
   console.log(image);
-
+ 
   let fileName = '';
   if (image instanceof File) {
     fileName = '/customers/' + image.name;
@@ -176,7 +176,7 @@ export async function updateCustomers(id: string, formData: FormData) {
     email: formData.get('email'),
     image_url: fileName,
   });
-
+ 
   const updateFields = { name, email, image_url };
   if (fileName) {
     updateFields.image_url = fileName;
@@ -190,11 +190,18 @@ export async function updateCustomers(id: string, formData: FormData) {
   } catch (error) {
     return { message: 'Database Error: Failed to Update Customers.' };
   }
-
+ 
   revalidatePath('/dashboard/customers');
   redirect('/dashboard/customers');
 }
 
 export async function deleteCustomers(id: string) {
-  throw new Error('Failed to Delete Customers');
+  // throw new Error('Failed to Delete Customers');
+  try {
+    await sql`DELETE FROM customers WHERE id = ${id}`;
+    revalidatePath('/dashboard/customers');
+    return { message: 'Deleted Customers.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Customers.' };
+  }
 }

@@ -375,26 +375,23 @@ export async function fetchReservationsPages(query: string) {
   }
 }
 
-// export async function fetchCustomersPages(query: string) {
-//   try {
-//     const count = await sql`SELECT COUNT(*)
-//     FROM customers
-//     JOIN customers ON reservations.customer_id = customers.id
-//     WHERE
-//       customers.name ILIKE ${`%${query}%`} OR
-//       customers.email ILIKE ${`%${query}%`} OR
-//       reservations.amount::text ILIKE ${`%${query}%`} OR
-//       reservations.date::text ILIKE ${`%${query}%`} OR
-//       reservations.status ILIKE ${`%${query}%`}
-//   `;
- 
-//     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-//     return totalPages;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch total number of reservations.');
-//   }
-// }
+export async function fetchCustomersPages(query: string) {
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM customers
+      WHERE customers.name ILIKE ${`%${query}%`} OR
+            customers.email ILIKE ${`%${query}%`}
+    `;
+    const totalCount = Number(count.rows[0].count) || 0;
+    const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of customers.');
+  }
+}
+
 
 export async function fetchCustomersById(id: string) {
   noStore();
@@ -402,23 +399,24 @@ export async function fetchCustomersById(id: string) {
     const data = await sql<CustomersForm>`
       SELECT
         customers.id,
-        customers.nama,
+        customers.name,
         customers.email,
-        customers.image_url,
+        customers.image_url
       FROM customers
       WHERE customers.id = ${id};
     `;
-
+ 
     const customers = data.rows.map((customers) => ({
       ...customers,
       // Convert amount from cents to dollars
-      image_url: customers.image_url || 'default-image-url-jpg'
+      amount: customers.amount / 100,
+      image_url: customers.image_url || 'default-image-url.jpg' 
     }));
-    
-    console.log(customers);
+ 
+    console.log(customers); // Invoice is an empty array []
     return customers[0];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch customers.');
+    throw new Error('Failed to fetch customer.');
   }
 }

@@ -135,4 +135,5 @@ export type CustomersForm = {
   name: string;
   email:string;
   image_url:string;
+  amount: number;
 };
