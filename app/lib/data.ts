@@ -12,6 +12,7 @@ import {
   ReservationsForm,
   LatestReservations,
   CustomersForm,
+  // CustomersTable,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -254,7 +255,11 @@ export async function fetchCustomers() {
   }
 }
  
-export async function fetchFilteredCustomers(query: string) {
+export async function fetchFilteredCustomers(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   noStore();
   try {
     const data = await sql<CustomersTableType>`
@@ -270,9 +275,10 @@ export async function fetchFilteredCustomers(query: string) {
     LEFT JOIN invoices ON customers.id = invoices.customer_id
     WHERE
       customers.name ILIKE ${`%${query}%`} OR
-        customers.email ILIKE ${`%${query}%`}
+      customers.email ILIKE ${`%${query}%`}
     GROUP BY customers.id, customers.name, customers.email, customers.image_url
     ORDER BY customers.name ASC
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
  
     const customers = data.rows.map((customer) => ({
@@ -282,8 +288,8 @@ export async function fetchFilteredCustomers(query: string) {
     }));
  
     return customers;
-  } catch (err) {
-    console.error('Database Error:', err);
+  } catch (error) {
+    console.error('Database Error:', error);
     throw new Error('Failed to fetch customer table.');
   }
 }

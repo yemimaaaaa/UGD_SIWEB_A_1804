@@ -137,3 +137,11 @@ export type CustomersForm = {
   image_url:string;
   amount: number;
 };
+
+// export type CustomersTable = {
+//   id: string;
+//   name: string;
+//   email:string;
+//   image_url:string;
+//   amount: number;
+// };
