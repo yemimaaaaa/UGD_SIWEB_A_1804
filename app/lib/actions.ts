@@ -5,12 +5,14 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 //import { UpdateInvoice } from '../ui/invoices/buttons';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 const FormSchema = z.object({
   id: z.string(),
-  customerId: z.string(),
-  amount: z.coerce.number(),
-  status: z.enum(['pending', 'paid']),
+  customerId: z.string({ invalid_type_error: 'Please select a customer.',}),
+  amount: z.coerce.number().gt(0, { message: 'Please enter an amount greater than $0.' }),
+  status: z.enum(['pending', 'paid'], {invalid_type_error: 'Please select an invoice status.',}),
   date: z.string(),
 });
 
@@ -21,18 +23,38 @@ const FormSchema2 = z.object({
   image_url: z.string(),
 });
 
+export type State = {
+  errors?: {
+    customerId?: string[];
+    amount?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
+ 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 const CreateReservations = FormSchema.omit({ id: true, date: true });
 const UpdateReservations = FormSchema.omit({ id: true, date: true });
 const CreateCustomers = FormSchema2.omit({ id: true });
 const UpdateCustomers = FormSchema2.omit({ id: true });
-export async function createReservations(formData: FormData) {
-  const { customerId, amount, status } = CreateReservations.parse({
+
+
+export async function createReservations(prevState: State, formData: FormData) {
+  const validatedFields = CreateReservations.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+
+  const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
   // Test it out:
@@ -53,28 +75,62 @@ export async function createReservations(formData: FormData) {
   redirect('/dashboard/reservations');
 }
 
-export async function updateReservations(id: string, formData: FormData) {
-  const { customerId, amount, status } = UpdateReservations.parse({
+export async function updateReservations(
+  id: string,
+  prevState: State,
+  formData: FormData,
+) {
+  const validatedFields = UpdateReservations.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
-
+ 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Reservations.',
+    };
+  }
+ 
+  const { customerId, amount, status } = validatedFields.data;
   const amountInCents = amount * 100;
-
+ 
   try {
     await sql`
-    UPDATE reservations
-    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-    WHERE id = ${id}
-  `;
+      UPDATE Reservations
+      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      WHERE id = ${id}
+    `;
   } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
+    return { message: 'Database Error: Failed to Update Reservations.' };
   }
-
+ 
   revalidatePath('/dashboard/reservations');
   redirect('/dashboard/reservations');
 }
+// export async function updateReservations(id: string, formData: FormData) {
+//   const { customerId, amount, status } = UpdateReservations.parse({
+//     customerId: formData.get('customerId'),
+//     amount: formData.get('amount'),
+//     status: formData.get('status'),
+//   });
+
+//   const amountInCents = amount * 100;
+
+//   try {
+//     await sql`
+//     UPDATE reservations
+//     SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+//     WHERE id = ${id}
+//   `;
+//   } catch (error) {
+//     return { message: 'Database Error: Failed to Update Invoice.' };
+//   }
+
+//   revalidatePath('/dashboard/reservations');
+//   redirect('/dashboard/reservations');
+// }
 export async function deleteReservations(id: string) {
   throw new Error('Failed to Delete Reservations');
 }
@@ -203,5 +259,24 @@ export async function deleteCustomers(id: string) {
     return { message: 'Deleted Customers.' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Customers.' };
+  }
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
   }
 }

@@ -25,7 +25,6 @@ export default function Page() {
         placeholder="blur"
         quality={100}
       />
-
       <div className="z-10 flex h-20 shrink-0 items-end rounded-lg bg-white-0 p-4 md:h-100">
         <AcmeLogo />
       </div>
