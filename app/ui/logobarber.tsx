@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { kanit } from '@/app/ui/fonts';
-
 export default function LogoBarber() {
   return (
     <div className={`${kanit.className} flex flex-row items-center leading-none text-white justify-content: flex-end`}>
