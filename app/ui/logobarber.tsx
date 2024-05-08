@@ -11,8 +11,7 @@ export default function LogoBarber() {
         width={65}
         height={65}
         className="rotate-[5deg]"
-        style={{ position: 'absolute', right: '30px' }}
-      />
+        style={{ position: 'absolute', right: '30px' }}/>
     </div>
   );
 }
