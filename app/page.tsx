@@ -51,11 +51,10 @@ export default function Page() {
               aria-label="Login">
               <UserIcon className="h-6 w-6" />
             </Link>
-          </header>
-          <header className="absolute top-5 right-5 mt-4 mr-4">
+            </header>
+              <header className="absolute top-5 right-5 mt-4 mr-4">
             <Link href="/login"
-              className="flex items gap-5 self-start rounded-lg bg-white-0 border border-white px-6 py-3 text-sm font medium text-white transition-color hover:bg-gray-400 hidden md:block"
-            >
+              className="flex items gap-5 self-start rounded-lg bg-white-0 border border-white px-6 py-3 text-sm font medium text-white transition-color hover:bg-gray-400 hidden md:block">
               <span>Login</span>
             </Link>
           </header>
