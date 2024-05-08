@@ -18,4 +18,5 @@ export default function AtmaBarbershop() {
       <p className="text-[30px]">Barbershop</p>
     </div>
   );
+  
 }

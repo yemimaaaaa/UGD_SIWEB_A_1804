@@ -8,5 +8,5 @@ export default async function Page() {
         <LatestReservation latestReservations={latestReservations} />
       </div>
         </main>
-    );
+        );
 }

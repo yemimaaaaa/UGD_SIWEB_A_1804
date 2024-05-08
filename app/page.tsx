@@ -47,15 +47,14 @@ export default function Page() {
           </p>
             
           <header className="absolute top-5 right-5 mt-4 mr-4">
-            < Link href="/login"
+            <Link href="/login"
               className="text-white block md:hidden"
               aria-label="Login">
               <UserIcon className="h-6 w-6" />
             </Link>
           </header>
           <header className="absolute top-5 right-5 mt-4 mr-4">
-            <Link
-              href="/login"
+            <Link href="/login"
               className="flex items gap-5 self-start rounded-lg bg-white-0 border border-white px-6 py-3 text-sm font medium text-white transition-color hover:bg-gray-400 hidden md:block"
             >
               <span>Login</span>
@@ -64,8 +63,7 @@ export default function Page() {
           <Link href= "/dashboard/">
           <h1 
           className={`${kanit.className} antialiased flex text-white 
-          text-[20px] hover:text-teal-500`}
-          >
+          text-[20px] hover:text-teal-500`}>
           Go to Dashboard
           <ArrowRightCircleIcon className='w-6 mx-2'/>
           </h1>

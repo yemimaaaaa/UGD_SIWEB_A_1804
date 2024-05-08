@@ -50,7 +50,7 @@ export async function createReservations(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
+      message: 'Missing Fields. Failed to Create Reservations.',
     };
   }
 
@@ -67,7 +67,7 @@ export async function createReservations(prevState: State, formData: FormData) {
 `;
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Create Invoice.',
+      message: 'Database Error: Failed to Create Reservations.',
     };
   }
 
