@@ -45,7 +45,6 @@ export default function Page() {
           >
             Admin Dashboard
           </p>
-            
           <header className="absolute top-5 right-5 mt-4 mr-4">
             <Link href="/login"
               className="text-white block md:hidden"
